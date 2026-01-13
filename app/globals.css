@@ -1,11 +1,11 @@
 @import "tailwindcss";
 
-/* :root {
+:root {
   --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
   --text-color: #333333;
   --editor-color: rgba(255, 255, 255, 0.8);
   --font-family: sans-serif;
-}*/
+}
 
 body {
   background: var(--bg-gradient);

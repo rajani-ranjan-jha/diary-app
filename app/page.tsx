@@ -10,10 +10,11 @@ import { IDiary } from '@/models/Diary';
 const DiaryApp = () => {
   const [diaries, setDiaries] = useState<IDiary[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   // Fetch Diaries
   const fetchDiaries = async () => {
+    setIsLoading(true)
     try {
       const res = await fetch('/api/diaries');
       const data = await res.json();
@@ -22,6 +23,7 @@ const DiaryApp = () => {
       }
     } catch (error) {
       console.error('Failed to fetch diaries', error);
+      window.alert(error)
     } finally {
       setIsLoading(false);
     }
@@ -90,6 +92,7 @@ const DiaryApp = () => {
   return (
     <div className="flex h-screen w-screen overflow-hidden">
       <Sidebar
+        isLoading={isLoading}
         diaries={diaries}
         selectedId={selectedId}
         onSelect={setSelectedId}
@@ -101,7 +104,7 @@ const DiaryApp = () => {
         {selectedDiary ? (
           <Editor diary={selectedDiary} onUpdate={handleUpdateDiary} />
         ) : (
-          <div className="flex-1 flex flex-col items-center justify-center opacity-40">
+          <div className="flex-1 flex flex-col items-center justify-center opacity-70">
             <h1 className="text-4xl font-bold mb-4">My Diary</h1>
             <p>Select a diary from the sidebar or create a new one.</p>
           </div>
