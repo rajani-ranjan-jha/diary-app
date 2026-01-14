@@ -14,8 +14,8 @@ const LoadingSpinner = () => {
 
     return (
         <div className='w-full h-full flex flex-col justify-center items-center text-3xl gap-4'>
-            <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-(--text-color) mx-auto mb-2"></div>
-            <p className="text-(--text-color)">Loading{dot}</p>
+            <div className="animate-spin rounded-full h-10 w-10 border-b-5 border-(--text-color) mx-auto mb-2"></div>
+            <p className="text-(--text-color) text-2xl">Loading{dot}</p>
         </div>
     )
 }
