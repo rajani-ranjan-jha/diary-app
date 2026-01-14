@@ -1,8 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { IDiary } from "@/models/Diary";
-import { Plus, Search, Trash2 } from "lucide-react";
+import { ArrowDownFromLine, Menu, Plus, Search, Trash2, X } from "lucide-react";
 import LoadingSpinner from "./LoadingSpinner";
 
 interface SidebarProps {
@@ -22,10 +22,89 @@ const Sidebar: React.FC<SidebarProps> = ({
   onNew,
   onDelete,
 }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [displayedDiaries, setDisplayedDiaries] = useState(diaries);
+
+  console.log({ width: window.innerWidth, height: window.innerHeight });
+
+  useEffect(() => {
+    setDisplayedDiaries(diaries);
+  }, [diaries]);
+
+  const handleSortDiaries = (value: string) => {
+    if (!value) {
+      return;
+    }
+    const sorted = [...displayedDiaries].sort((a, b) => {
+      switch (value) {
+        case "date-down":
+          return (
+            new Date(b.date_created).getTime() -
+            new Date(a.date_created).getTime()
+          );
+        case "date-up":
+          return (
+            new Date(a.date_created).getTime() -
+            new Date(b.date_created).getTime()
+          );
+        case "length-down":
+          return b.content.length - a.content.length;
+        case "length-up":
+          return a.content.length - b.content.length;
+        default:
+          return 0;
+      }
+    });
+    setDisplayedDiaries(sorted);
+  };
+
+  if (!isOpen) {
+    return (
+      <button
+        onClick={() => setIsOpen(true)}
+        className="mt-4 ml-4 p-3 rounded-full bg-(--text-color)/15 hover:bg-(--text-color)/20 cursor-pointer"
+        title="Open Sidebar"
+      >
+        <Menu size={24} />
+      </button>
+    );
+  }
+
   return (
     <div className="w-80 h-full flex flex-col border-r border-(--text-color)/50 ">
       <div className="p-4 border-b-2 border-(--text-color)/50 flex justify-between items-center">
         <h2 className="text-2xl font-bold">My Diaries</h2>
+        <button
+          onClick={() => setIsOpen(false)}
+          className="p-2 rounded-full hover:bg-(--text-color)/20 transition-colors cursor-pointer"
+          title="Close Sidebar"
+        >
+          <X size={25} />
+        </button>
+      </div>
+      <div className="p-4 border-b-2 border-(--text-color)/50 flex justify-between items-center">
+        <select
+          onChange={(e) => {
+            handleSortDiaries(e.target.value);
+          }}
+          className="w-1/2 p-2 border outline-none rounded-md"
+          name="sort"
+          defaultValue="date-down"
+          id="sort-by"
+        >
+          <option value="date-down" title="Date: New-Old">
+            Date ↓
+          </option>
+          <option value="date-up" title="Date: Old-New">
+            Date ↑
+          </option>
+          <option value="length-down" title="Length: Long-Short">
+            Length ↓
+          </option>
+          <option value="length-up" title="Length: Short-Long">
+            Length ↑
+          </option>
+        </select>
         <button
           onClick={onNew}
           className="p-2 rounded-full hover:bg-(--text-color)/20 transition-colors cursor-pointer"
@@ -37,15 +116,15 @@ const Sidebar: React.FC<SidebarProps> = ({
 
       <div className="p-2 pt-5 overflow-y-auto flex-1 sidebar-scroll ">
         {isLoading ? (
-          <div>
+          <div className="h-full flex justify-center items-center">
             <LoadingSpinner />
           </div>
-        ) : diaries.length === 0 ? (
-          <div className="text-center p-4 opacity-50 text-sm">
+        ) : displayedDiaries.length === 0 ? (
+          <div className="h-full flex items-center justify-center text-center p-4 opacity-50 text-md">
             No entries yet. Click + to start.
           </div>
         ) : (
-          diaries.map((diary) => (
+          displayedDiaries.map((diary) => (
             <div
               key={diary._id}
               onClick={() => onSelect(diary._id!)}
