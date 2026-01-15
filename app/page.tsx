@@ -39,7 +39,7 @@ const DiaryApp = () => {
       const res = await fetch('/api/diaries', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title: '1', content: 'e' }),
+        body: JSON.stringify({ title: '', content: '' }),
       });
       const data = await res.json();
       if (data.success) {
@@ -90,7 +90,7 @@ const DiaryApp = () => {
   const selectedDiary = diaries.find((d) => d._id === selectedId);
 
   return (
-    <div className="flex h-screen w-screen overflow-hidden">
+    <div className="flex items-start h-screen w-screen overflow-hidden">
       <Sidebar
         isLoading={isLoading}
         diaries={diaries}

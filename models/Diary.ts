@@ -11,12 +11,13 @@ export interface IDiary {
 const DiarySchema = new Schema<IDiary>({
     title: {
         type: String,
-        default: '',
+        // required: false,
+        // default: 'Title',
     },
     content: {
         type: String,
-        // required: true,
-        default: 'content'
+        // required: false,
+        // default: 'Content'
     },
     date_created: {
         type: Date,
