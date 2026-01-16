@@ -1,9 +1,11 @@
 @import "tailwindcss";
 
 :root {
-  --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-  --text-color: #333333;
-  --editor-color: rgba(255, 255, 255, 0.8);
+  /* --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); */
+  --bg-gradient: radial-gradient(ellipse at bottom right, #0f172a, #1e1a78, #0f172a);
+  --text-color: #ffffff;
+  /* --editor-color: rgba(255, 255, 255, 0.8); */
+  --editor-color: transparent;
   /* --font-family: sans-serif; */
   --font-family: 'Poppins';
 }

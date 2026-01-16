@@ -15,10 +15,10 @@ type SettingsContextType = {
 };
 
 const defaultSettings: Settings = {
-    bgColor: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
-    textColor: '#333333',
-    editorColor: 'rgba(255, 255, 255, 0.8)',
-    fontFamily: 'sans-serif',
+    bgColor: 'radial-gradient(ellipse at bottom right, #0f172a, #1e1a78, #0f172a)',
+    textColor: '#ffffff',
+    editorColor: 'rgba(0, 0, 0, 0.1)',
+    fontFamily: 'Poppins',
 };
 
 const SettingsContext = createContext<SettingsContextType | undefined>(undefined);
