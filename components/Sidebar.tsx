@@ -22,13 +22,17 @@ const Sidebar: React.FC<SidebarProps> = ({
   onNew,
   onDelete,
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
   const [displayedDiaries, setDisplayedDiaries] = useState(diaries);
 
   // console.log({ width: window.innerWidth, height: window.innerHeight });
 
   useEffect(() => {
-    setDisplayedDiaries(diaries);
+    setDisplayedDiaries(diaries.sort((a, b) => (
+      new Date(b.date_created).getTime() -
+      new Date(a.date_created).getTime()
+    ))
+  )
   }, [diaries]);
 
   const handleSortDiaries = (value: string) => {
@@ -37,12 +41,12 @@ const Sidebar: React.FC<SidebarProps> = ({
     }
     const sorted = [...displayedDiaries].sort((a, b) => {
       switch (value) {
-        case "date-down":
+        case "date-down": //new to old
           return (
             new Date(b.date_created).getTime() -
             new Date(a.date_created).getTime()
           );
-        case "date-up":
+        case "date-up": // old to new
           return (
             new Date(a.date_created).getTime() -
             new Date(b.date_created).getTime()
@@ -52,7 +56,10 @@ const Sidebar: React.FC<SidebarProps> = ({
         case "length-up":
           return a.content.length - b.content.length;
         default:
-          return 0;
+          return (
+            new Date(b.date_created).getTime() -
+            new Date(a.date_created).getTime()
+          );
       }
     });
     setDisplayedDiaries(sorted);
@@ -93,21 +100,21 @@ const Sidebar: React.FC<SidebarProps> = ({
               onChange={(e) => {
                 handleSortDiaries(e.target.value);
               }}
-              className="w-1/2 p-2 border outline-none rounded-md"
+              className="p-2 border outline-none rounded-md"
               name="sort"
               defaultValue="date-down"
               id="sort-by"
             >
-              <option value="date-down" title="Date: New-Old">
-                Date ↓
+              <option className="bg-black text-white" value="date-down" title="Date: New-Old">
+                Date Created ↓
               </option>
-              <option value="date-up" title="Date: Old-New">
-                Date ↑
+              <option className="bg-black text-white" value="date-up" title="Date: Old-New">
+                Date Created ↑
               </option>
-              <option value="length-down" title="Length: Long-Short">
+              <option className="bg-black text-white" value="length-down" title="Length: Long-Short">
                 Length ↓
               </option>
-              <option value="length-up" title="Length: Short-Long">
+              <option className="bg-black text-white" value="length-up" title="Length: Short-Long">
                 Length ↑
               </option>
             </select>
@@ -130,9 +137,9 @@ const Sidebar: React.FC<SidebarProps> = ({
                 <div
                   key={diary._id}
                   onClick={() => onSelect(diary._id!)}
-                  className={`bg-white/20 p-3 mb-2 rounded-lg cursor-pointer transition-all hover:bg-(--text-color)/15 group flex justify-between items-center ${
-                    selectedId === diary._id
-                      ? "bg-(--text-color)/10 font-medium"
+                  className={`bg-(--text-color)/10 p-3 mb-2 rounded-lg cursor-pointer transition-all hover:bg-(--text-color)/15 group flex justify-between items-center ${
+                    selectedId == diary._id
+                      ? "bg-(--text-color)/40 hover:bg-(--text-color)/40 font-medium"
                       : ""
                   }`}
                 >
@@ -149,7 +156,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                     className="opacity-0 group-hover:opacity-100 p-1.5 hover:bg-red-500/20 rounded text-red-500 transition-all"
                     title="Delete"
                   >
-                    <Trash2 size={14} />
+                    <Trash2 size={20} />
                   </button>
                 </div>
               ))
