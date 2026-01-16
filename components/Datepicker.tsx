@@ -151,11 +151,12 @@ export default function DatePicker({
                 <button
                   key={i}
                   onClick={() => handleDateClick(day)}
+                  title={isToday ? 'Today' : String(day) + ' ' + monthNames[month]}
                   className={`
                     w-10 h-10 rounded-full flex items-center justify-center transition-all
                     ${
                       isSelected
-                        ? "bg-(--text-color) text-white shadow-md"
+                        ? "bg-black text-white shadow-md"
                         : "text-(--text-color) hover:bg-(--text-color)/30"
                     }
                     ${

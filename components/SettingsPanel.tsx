@@ -45,7 +45,7 @@ const SettingsPanel = () => {
 
   return (
     <div className="fixed inset-0 bg-black/20 backdrop-blur-sm z-50 flex justify-end">
-      <div className="w-80 h-full glass p-6 shadow-2xl animate-slide-in-right overflow-y-auto">
+      <div className="w-80 h-full border p-6 shadow-2xl animate-slide-in-right overflow-y-auto">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-xl font-bold">Appearance</h2>
           <button
@@ -83,12 +83,11 @@ const SettingsPanel = () => {
               className="w-full p-2 rounded text-(--text-color) outline-none border"
             >
               {fonts.map((font) => (
-                <option className="invert text-(--text-color) bg-white" key={font} value={font}>
+                <option className="bg-black text-white" key={font} value={font}>
                   {font.replace(/"/g, "")}
                 </option>
               ))}
             </select>
-
           </section>
 
           <section>
@@ -122,7 +121,7 @@ const SettingsPanel = () => {
               </label>
               <button
                 onClick={() =>
-                  updateSettings({ editorColor: "bg-transparent" })
+                  updateSettings({ editorColor: "rgba(0, 0, 0, 0.1)" })
                 }
                 title="Transparent"
                 className="rounded-md bg-(--text-color)/10 hover:bg-(--text-color)/20 p-1 text-center w-full cursor-pointer"
